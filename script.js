@@ -1,4 +1,14 @@
-const cards = ["💖", "💖", "😍", "😍", "💌", "💌", "💕", "💕", "💘", "💘", "💓", "💓"];
+
+//We can keep all important game data here so that as the game grows we have a place to go to view/edit all importnat data
+const GAME_CONFIG = {
+  FLIP_DELAY: 1000,
+  CELEBRATION_DELAY: 600,
+  MAX_FLIPPED_CARDS: 2,
+  CARDS: ["💖", "💖", "😍", "😍", "💌", "💌", "💕", "💕", "💘", "💘", "💓", "💓"]
+};
+
+
+const cards = [...GAME_CONFIG.CARDS];
 let flippedCards = [];
 let matchedCards = [];
 
@@ -37,16 +47,16 @@ function createBoard() {
 // 7. call it where it will be triggered , createBoard
 
 function flipCard(event) {
-    const card = event.target;
-    if (!flippedCards.includes(card) && !matchedCards.includes(card) && flippedCards.length < 2) {
+  const card = event.target;
+  if (!flippedCards.includes(card) && !matchedCards.includes(card) &&
+    flippedCards.length < GAME_CONFIG.MAX_FLIPPED_CARDS) {
     card.textContent = card.dataset.value;
     card.classList.add("flipped");
     flippedCards.push(card);
-    if (flippedCards.length === 2) {
+    if (flippedCards.length === GAME_CONFIG.MAX_FLIPPED_CARDS) {
       checkMatch();
-    console.log("it is match");
-        }
     }
+  }
 }
 
 // logic to check if the cards match
@@ -63,27 +73,27 @@ function flipCard(event) {
 
 // Activity 1: Attempt to implement the checkMatch function (10 mins) submit in slack when done
 
-function checkMatch (){
-    const [card1, card2] = flippedCards;
-    if(card1.dataset.value === card2.dataset.value){
-        card1.classList.add("matched");
-        card2.classList.add("matched");
-        matchedCards.push(card1, card2);
-        flippedCards = [];
-        if(matchedCards.length === cards.length){
-            setTimeout(() =>{
-                alert("🥳🥳 Yay! You've matched all the hearts! Happy Valentine!❤️")
-            }, 600);
-        }
-    }else{
-        setTimeout(() => {
-        card1.textContent = "?";
-        card2.textContent = "?";
-        card1.classList.remove("flipped");
-        card2.classList.remove("flipped");
-        flippedCards = [];
-        }, 1000);
+function checkMatch() {
+  const [card1, card2] = flippedCards;
+  if (card1.dataset.value === card2.dataset.value) {
+    card1.classList.add("matched");
+    card2.classList.add("matched");
+    matchedCards.push(card1, card2);
+    flippedCards = [];
+    if (matchedCards.length === cards.length) {
+      setTimeout(() => {
+        alert("🥳🥳 Yay! You've matched all the hearts! Happy Valentine!❤️")
+      }, GAME_CONFIG.CELEBRATION_DELAY);
     }
+  } else {
+    setTimeout(() => {
+      card1.textContent = "?";
+      card2.textContent = "?";
+      card1.classList.remove("flipped");
+      card2.classList.remove("flipped");
+      flippedCards = [];
+    }, GAME_CONFIG.FLIP_DELAY);
+  }
 }
 
 
@@ -93,12 +103,12 @@ function checkMatch (){
 // 4. empty flippedCards and matchedCards
 // 5. call createBoard()
 
-function resetGame(){
-    const gameBoard = document.getElementById("game-board");
-    gameBoard.innerHTML = "";
-    flippedCards = [];
-    matchedCards = [];
-    createBoard();
+function resetGame() {
+  const gameBoard = document.getElementById("game-board");
+  gameBoard.innerHTML = "";
+  flippedCards = [];
+  matchedCards = [];
+  createBoard();
 }
 
 createBoard();
