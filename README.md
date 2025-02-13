@@ -123,3 +123,7 @@ By the end of this project, you’ll be able to:
 
 Happy Valentine's! 💖
 
+## **Weekly assignment**
+
+Based on the article I wrote i implemented a new imporvement where all necessary game data is stored at the top of the script page to access/edit easily so that if the game grows bigger we don't have to scramble around looking for important constants
+
